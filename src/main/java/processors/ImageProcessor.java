@@ -20,20 +20,20 @@ public class ImageProcessor extends AbstractProcessor{
 		this.fileFormat = fileFormat;
 	}
 
-	public void transform(String filename){
+	public void transform(String fileName) {
 
 		String path = configurationProvider.getPath(this.fileFormat);
 
 		try {
-			BufferedImage bio = ImageIO.read(new File(path + filename));
+			BufferedImage bio = ImageIO.read(new File(path + fileName));
 			BufferedImageOp resampler = new ResampleOp(200, 200, ResampleOp.FILTER_LANCZOS);
 			BufferedImage bir = resampler.filter(bio, null);
 
-			System.out.println("FILE PROCESSED -> " + filename);
+			System.out.println("FILE PROCESSED -> " + fileName);
 
 			ImageIO.write(bir, this.fileFormat,
 					new File(path
-							.replace("original", "processed") + filename));
+							.replace("original", "processed") + fileName));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

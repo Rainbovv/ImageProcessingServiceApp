@@ -26,13 +26,10 @@ public class ConfigurationProvider {
 
 				String fileName = file.getName();
 
-				if (file.isDirectory() || (!fileName.contains(".jpeg") &&
-						!fileName.contains(".jpg"))) {
+				if (file.isDirectory())
 					return false;
-				}
-				String format1 = fileName.substring(fileName.lastIndexOf('.'));
 
-				return format1.equals(".jpeg") || format1.equals(".jpg");
+				return fileName.endsWith(".jpeg") || fileName.endsWith(".jpg");
 			};
 		}
 		return fileFilter;
