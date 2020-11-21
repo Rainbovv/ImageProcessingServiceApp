@@ -2,6 +2,7 @@ package behavior;
 
 
 import config.ConfigurationProvider;
+import processors.AbstractProcessor;
 import processors.ImageProcessor;
 
 import java.io.File;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 public class DirectoryObserver {
 
 	private final ConfigurationProvider configurationProvider;
-	private final HashMap<String, ImageProcessor> processors;
+	private final HashMap<String, AbstractProcessor> processors;
 
 	public DirectoryObserver() {
 		this.configurationProvider = ConfigurationProvider.getInstance();
@@ -42,7 +43,9 @@ public class DirectoryObserver {
 
 						if (f.equals(file)) return;
 					}
-						processors.get(fileFormat).transform(f.getName());
+						AbstractProcessor processor = processors.get(fileFormat);
+						if (processor != null)
+							processor.transform(f.getName());
 				});
 				lastFiles = files;
 			}

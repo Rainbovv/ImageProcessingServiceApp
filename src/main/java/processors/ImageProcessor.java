@@ -9,7 +9,7 @@ import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageProcessor {
+public class ImageProcessor extends AbstractProcessor{
 
 	String fileFormat;
 
@@ -22,7 +22,7 @@ public class ImageProcessor {
 
 	public void transform(String filename){
 
-		String path = configurationProvider.getPath(fileFormat);
+		String path = configurationProvider.getPath(this.fileFormat);
 
 		try {
 			BufferedImage bio = ImageIO.read(new File(path + filename));
@@ -31,7 +31,7 @@ public class ImageProcessor {
 
 			System.out.println("FILE PROCESSED -> " + filename);
 
-			ImageIO.write(bir, fileFormat,
+			ImageIO.write(bir, this.fileFormat,
 					new File(path
 							.replace("original", "processed") + filename));
 		} catch (IOException e) {
