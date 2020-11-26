@@ -22,9 +22,11 @@ public class DirectoryObserver {
 
 	public void observe(String fileFormat) {
 
+		System.out.println("started");
+
 		File rootDir = new File(configurationProvider.getPath(fileFormat));
 
-		if (! rootDir.exists() || ! rootDir.isDirectory()) {
+		if (!rootDir.exists() || !rootDir.isDirectory()) {
 			System.err.println("ERROR!!! THE ROOT DIRECTORY DOESN'T EXIST!");
 			return;
 		}
@@ -34,7 +36,18 @@ public class DirectoryObserver {
 		while (true) {
 			File[] files = rootDir.listFiles(configurationProvider.getFilter(fileFormat));
 
-			if (files != null && ! Arrays.deepEquals(lastFiles, files)) {
+//			Arrays.stream(files).forEach(System.out::println);
+
+//			lastFiles = new File(rootDir
+//					.getPath()
+//					.replace("original", "processed"))
+//					.listFiles();
+//
+//			Arrays.stream(lastFiles).forEach(System.out::println);
+
+//			System.out.println(Arrays.equals(lastFiles, files));
+
+			if (files != null && !Arrays.deepEquals(lastFiles, files)) {
 
 				File[] finalLastFiles = lastFiles;
 

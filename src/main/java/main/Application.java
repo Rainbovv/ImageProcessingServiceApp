@@ -10,9 +10,6 @@ public class Application {
 		DirectoryObserver directoryObserver = new DirectoryObserver();
 
 
-		System.out.println("STARTING");
-
 		directoryObserver.observe("jpeg");
-
 	}
 }
