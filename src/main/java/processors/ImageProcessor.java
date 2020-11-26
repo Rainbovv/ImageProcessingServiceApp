@@ -29,8 +29,6 @@ public class ImageProcessor extends AbstractProcessor{
 			BufferedImageOp resampler = new ResampleOp(200, 200, ResampleOp.FILTER_LANCZOS);
 			BufferedImage bir = resampler.filter(bio, null);
 
-			System.out.println("FILE PROCESSED -> " + fileName);
-
 			ImageIO.write(bir, this.fileFormat,
 					new File(path
 							.replace("original", "processed") + fileName));

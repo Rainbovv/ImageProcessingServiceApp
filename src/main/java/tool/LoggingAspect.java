@@ -1,27 +1,32 @@
 package tool;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 
 @Aspect
 public class LoggingAspect {
 
-	private Benchmark benchmark;
+//	private Benchmark benchmark;
 
 
-	@After("execution(* transform(String))")
-	public void processingFinished(JoinPoint jp){
-		System.out.printf("%s has been processed in %f sec.%n",jp.getArgs()[0], benchmark.finish());
+	@Around("execution(* transform(String))")
+	public void processing(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+		System.out.println("\nProcessing file >> " + proceedingJoinPoint.getArgs()[0]);
+		proceedingJoinPoint.proceed();
+		System.out.println(proceedingJoinPoint.getArgs()[0] + " has been processed!");
 	}
 
-	@Before("execution(* transform(String))")
-	public void processing(JoinPoint jp) {
-		System.out.println("Unprocessed file found.\nProcessing file >> " + jp.getArgs()[0]);
-		this.benchmark = new Benchmark();
-		benchmark.start();
-	}
+//	@After("execution(* transform(String))")
+//	public void processingFinished(JoinPoint jp){
+//		System.out.printf("%s has been processed in %f sec.%n",jp.getArgs()[0], benchmark.finish());
+//	}
+//
+//	@Before("execution(* transform(String))")
+//	public void processing(JoinPoint jp) {
+//		System.out.println("Unprocessed file found.\nProcessing file >> " + jp.getArgs()[0]);
+//		this.benchmark = new Benchmark();
+//		benchmark.start();
+//	}
 
 
 }
