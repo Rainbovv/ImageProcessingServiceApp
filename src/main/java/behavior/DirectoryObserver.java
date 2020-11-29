@@ -22,7 +22,7 @@ public class DirectoryObserver {
 
 	public void observe(String fileFormat) {
 
-		System.out.println("started");
+		System.out.println("\nOBSERVER STARTED...\n--------------------------------");
 
 		File rootDir = new File(configurationProvider.getPath(fileFormat));
 
@@ -31,36 +31,24 @@ public class DirectoryObserver {
 			return;
 		}
 
-		File[] lastFiles = {};
-
 		while (true) {
 			File[] files = rootDir.listFiles(configurationProvider.getFilter(fileFormat));
+			File[] lastFiles = new File(configurationProvider.getPath(fileFormat)
+					.replace("original", "processed")).listFiles();
 
-//			Arrays.stream(files).forEach(System.out::println);
+			assert files != null;
+			if (!Arrays.deepEquals(lastFiles, files)) {
 
-//			lastFiles = new File(rootDir
-//					.getPath()
-//					.replace("original", "processed"))
-//					.listFiles();
-//
-//			Arrays.stream(lastFiles).forEach(System.out::println);
-
-//			System.out.println(Arrays.equals(lastFiles, files));
-
-			if (files != null && !Arrays.deepEquals(lastFiles, files)) {
-
-				File[] finalLastFiles = lastFiles;
-
+				assert lastFiles != null;
 				Arrays.asList(files).forEach(f -> {
-					for (File file : finalLastFiles) {
+					for (File file : lastFiles) {
 
-						if (f.equals(file)) return;
+						if (f.getName().equals(file.getName())) return;
 					}
-						AbstractProcessor processor = processors.get(fileFormat);
-						if (processor != null)
-							processor.transform(f.getName());
+					AbstractProcessor processor = processors.get(fileFormat);
+					assert processor != null;
+						processor.transform(f.getName());
 				});
-				lastFiles = files;
 			}
 			try {
 				Thread.sleep(500);
